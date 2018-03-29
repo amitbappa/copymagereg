@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import creativemind.think.thinkcreativemind.R;
+import creativemind.think.util.AppConstant;
+import creativemind.think.util.ImageRecogApp;
 
 public class FileexplorerActivity extends Activity {
  
@@ -31,7 +33,8 @@ public class FileexplorerActivity extends Activity {
         // See which child activity is calling us back.
     	if (requestCode == REQUEST_PATH){
     		if (resultCode == RESULT_OK) { 
-    			curFileName = data.getStringExtra("GetFileName"); 
+    			curFileName = ImageRecogApp.getInstance().isFolderBrowse()?data.getStringExtra(AppConstant.GET_FILE_PATH):
+                        data.getStringExtra(AppConstant.GET_FILE_PATH)+data.getStringExtra(AppConstant.GET_FILE_NAME);
             	edittext.setText(curFileName);
     		}
     	 }

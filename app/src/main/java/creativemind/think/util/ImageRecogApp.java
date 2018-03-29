@@ -14,6 +14,17 @@ public class ImageRecogApp extends Application  {
     private static ImageRecogApp singleton;
     private static Context sContext;
     public static boolean isTab = false;
+    private boolean isFolderBrowse=false;
+
+    public boolean isFolderBrowse() {
+        return isFolderBrowse;
+    }
+
+    public void setFolderBrowse(boolean folderBrowse) {
+        isFolderBrowse = folderBrowse;
+    }
+
+
 
     @Override
     public void onCreate() {

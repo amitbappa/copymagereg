@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import creativemind.think.thinkcreativemind.filebrowser.AndroidPermissionHelper;
 import creativemind.think.thinkcreativemind.filebrowser.FileexplorerActivity;
+import creativemind.think.util.ImageRecogApp;
 
 import static android.app.PendingIntent.getActivity;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        ImageRecogApp.getInstance().setFolderBrowse(false);
         mPermissionHelper = new AndroidPermissionHelper(this);
         mPermissionHelper.checkReadWriteExternalPermission();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
