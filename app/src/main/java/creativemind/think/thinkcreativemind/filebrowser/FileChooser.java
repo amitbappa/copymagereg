@@ -37,13 +37,14 @@ public class FileChooser extends ListActivity {
 		 List<Item> fls = new ArrayList<Item>();
 		 try{
 			 for(File ff: dirs)
-			 { 
+			 {
+				 if(ff.getName().startsWith(".")) continue;
+
 				Date lastModDate = new Date(ff.lastModified());
 				DateFormat formater = DateFormat.getDateTimeInstance();
 				String date_modify = formater.format(lastModDate);
 				if(ff.isDirectory()){
-					
-					
+
 					File[] fbuf = ff.listFiles();
 					int buf = 0;
 					if(fbuf != null){ 
