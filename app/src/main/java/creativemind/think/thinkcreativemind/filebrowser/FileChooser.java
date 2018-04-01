@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import creativemind.think.thinkcreativemind.R;
-import creativemind.think.util.ImageRecogApp;
+import creativemind.think.thinkcreativemind.util.ImageRecogApp;
 
 
 public class FileChooser extends ListActivity implements AdapterView.OnItemLongClickListener {

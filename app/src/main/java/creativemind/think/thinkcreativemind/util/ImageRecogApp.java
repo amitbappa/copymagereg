@@ -1,4 +1,4 @@
-package creativemind.think.util;
+package creativemind.think.thinkcreativemind.util;
 
 import android.app.Application;
 import android.content.Context;

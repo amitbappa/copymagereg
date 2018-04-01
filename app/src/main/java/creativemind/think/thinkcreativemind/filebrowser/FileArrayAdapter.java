@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.List;
 
 import creativemind.think.thinkcreativemind.R;
@@ -64,5 +63,4 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
                }
                return v;
        }
-
 }

@@ -1,41 +1,70 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    >
-    <TextView android:id="@+id/textview" 
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:text="Get File Name From SDCard"  
+    android:layout_height="fill_parent">
+
+
+    <TextView
+        android:id="@+id/textViewOutput_level"
+        android:layout_width="270dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
+        android:hint="outputLocation"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="27dp"
+        tools:text="Output Location path" />
+
+    <TextView
+        android:id="@+id/editText_ImagPath"
+        android:layout_width="224dp"
+        android:layout_height="44dp"
+
+        android:ems="10"
+        android:hint="Please select image path"
+        android:inputType="textPersonName"
+        android:lines="45"
+        android:maxLines="@android:integer/config_longAnimTime"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="293dp"></TextView>
+
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="125dp"
+        android:layout_height="51dp"
+        android:onClick="getfile"
+        android:text="Browser"
         android:textSize="18dp"
-        android:gravity="center" 
-        android:layout_marginTop="10dp"      
-    />    
-    <RelativeLayout android:id="@+id/relativeLayout1" 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content">  
-        <EditText
-            android:layout_alignParentLeft="true" 
-            android:hint="EditText"
-            android:id="@+id/editText" 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp" 
-	        android:ems="10"
-	        android:inputType="textPersonName" 
-            android:layout_toLeftOf="@+id/skipButton" >
-    	</EditText>
-    
-        <Button android:text="Browser"
-	         android:id="@+id/skipButton" 
-	         android:textSize="18dp"
-	         android:layout_marginTop="10dp" 
-	         android:layout_alignParentRight="true" 
-	         android:layout_height="wrap_content" 
-	         android:layout_width="wrap_content" 
-	         android:onClick="getfile" >
-         </Button>
-    </RelativeLayout> 
-</LinearLayout>
+        tools:layout_editor_absoluteX="419dp"
+        tools:layout_editor_absoluteY="292dp"></Button>
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="449dp" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonCancel"
+        tools:layout_editor_absoluteY="437dp" />
+
+
+    <TextView
+        android:id="@+id/textViewOutput"
+        android:layout_width="270dp"
+        android:layout_height="54dp"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="109dp" />
+
+
+</android.support.constraint.ConstraintLayout>
