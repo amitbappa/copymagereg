@@ -3,6 +3,7 @@ package creativemind.think.thinkcreativemind;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -41,6 +42,7 @@ import creativemind.think.thinkcreativemind.filebrowser.FileexplorerActivity;
 import creativemind.think.thinkcreativemind.util.AppSettings;
 import creativemind.think.thinkcreativemind.util.CreativeUtil;
 import creativemind.think.thinkcreativemind.util.ImageRecogApp;
+import creativemind.think.thinkcreativemind.util.PathUtil;
 
 
 public class MainActivity extends AppCompatActivity
@@ -125,8 +127,11 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             cameraIntent();
         } else if (id == R.id.nav_gallery) {
+            galleryIntent();
+
+         /*
             Intent intent1 = new Intent(this, FileexplorerActivity.class);
-            startActivity(intent1);
+            startActivity(intent1);*/
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -231,6 +236,8 @@ public class MainActivity extends AppCompatActivity
         if (resultCode == Activity.RESULT_OK) {
              if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
         }
     }
     private void onCaptureImageResult(Intent data) {
@@ -272,9 +279,48 @@ public class MainActivity extends AppCompatActivity
 
 
 
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
 
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
 
+        Bitmap bm=null;
+        File imageFile=null;
+        Uri url;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                url=(Uri)data.getData();
+                imageFile = new File(PathUtil.getPath(this,url));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        AppSettings.setInputPath(imageFile.getAbsolutePath().toString());
+        image_selected.setImageBitmap(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
 
+        image_selected.setImageBitmap(bm);
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
 
 
 }
