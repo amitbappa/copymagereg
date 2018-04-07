@@ -162,6 +162,10 @@ public class MainActivity extends AppCompatActivity
     public void startScanImage()
     {
         textView_imageScanText.setText("");
+
+
+
+
         StringBuilder sb= new StringBuilder();
         String outPut=CreativeUtil.startScanImageForExtractText(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
         sb.append(outPut);
