@@ -10,8 +10,9 @@
 
     <ImageView
         android:id="@+id/imageView_select"
-        android:layout_width="283dp"
+        android:layout_width="match_parent"
         android:layout_height="341dp"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,11 +22,14 @@
 
     <TextView
         android:id="@+id/textView_imageScanText"
-        android:layout_width="0dp"
-        android:layout_height="102dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollbars="vertical"
         android:singleLine="false"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_select" />
@@ -36,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="ScanImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

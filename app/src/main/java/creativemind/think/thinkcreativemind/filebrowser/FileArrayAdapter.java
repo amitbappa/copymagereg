@@ -18,6 +18,9 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 	private Context c;
 	private int id;
 	private List<Item> items;
+
+
+
 	
 	public FileArrayAdapter(Context context, int textViewResourceId,
                             List<Item> objects) {

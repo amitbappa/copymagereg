@@ -43,5 +43,12 @@ public class AppSettings {
         return sharedpreferences.getString(AppConstant.OUTPUT_FOLDER_PATH,"");
 
     }
+    public static void setInputPath(String inPutPath){
+        sharedpreferences = ImageRecogApp.getContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(AppConstant.INPUT_FILE_PATH, inPutPath);
+        editor.commit();
+
+    }
 
 }

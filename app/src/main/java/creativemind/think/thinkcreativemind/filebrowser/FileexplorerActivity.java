@@ -75,11 +75,10 @@ public class FileexplorerActivity extends Activity implements OnClickListener {
             case R.id.btn_save:
 
                 AppSettings.setAppPathInPutOutput(curFileName);
+                finish();
                 break;
             case R.id.button_browse:
                 getfile(v);
-
-
                 break;
         }
     }
