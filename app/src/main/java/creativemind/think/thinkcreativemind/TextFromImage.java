@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.ByteArrayOutputStream;
@@ -45,8 +46,8 @@ import creativemind.think.thinkcreativemind.util.ImageRecogApp;
 import creativemind.think.thinkcreativemind.util.PathUtil;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener{
+public class TextFromImage extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     AndroidPermissionHelper mPermissionHelper;
     ImageView image_selected;
     TextView textView_imageScanText;
@@ -63,12 +64,12 @@ public class MainActivity extends AppCompatActivity
         ImageRecogApp.getInstance().setFolderBrowse(false);
         mPermissionHelper = new AndroidPermissionHelper(this);
         mPermissionHelper.checkReadWriteExternalPermission();
-        Toolbar toolbar =  findViewById(R.id.toolbar);
-        image_selected= findViewById(R.id.imageView_select);
-        start_Scan= findViewById(R.id.button_startSan);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        image_selected = findViewById(R.id.imageView_select);
+        start_Scan = findViewById(R.id.button_startSan);
         start_Scan.setOnClickListener((View.OnClickListener) this);
-        textView_imageScanText=findViewById(R.id.textView_imageScanText);
-        floatingActionButton= findViewById(R.id.fab);
+        textView_imageScanText = findViewById(R.id.textView_imageScanText);
+        floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);
         textView_imageScanText.setMovementMethod(new ScrollingMovementMethod());
         setImageFromSelectedPath();
@@ -139,6 +140,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
+            if (textView_imageScanText.getText().toString().trim().length() > 0) {
+                chooseIntent();
+            } else {
+                Toast.makeText(this, "No image scan text to send!!!", Toast.LENGTH_LONG).show();
+            }
+
+
         } else if (id == R.id.nav_send) {
 
         }
@@ -148,34 +156,26 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setImageFromSelectedPath()
-    {
+    public void setImageFromSelectedPath() {
         try {
 
             if (AppSettings.getInputPath().trim().length() > 0) {
                 image_selected.setImageBitmap(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
             }
             //startScanImage();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
 
     }
 
-    public void startScanImage()
-    {
+    public void startScanImage() {
         textView_imageScanText.setText("");
 
-
-
-
-        StringBuilder sb= new StringBuilder();
-        String outPut=CreativeUtil.startScanImageForExtractText(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
+        StringBuilder sb = new StringBuilder();
+        String outPut = CreativeUtil.startScanImageForExtractText(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
         sb.append(outPut);
-
-
         textView_imageScanText.setText(sb.toString());
     }
 
@@ -211,7 +211,15 @@ public class MainActivity extends AppCompatActivity
 
         switch (v.getId()) {
             case R.id.button_startSan:
-                startScanImage();
+                if(AppSettings.getInputPath().trim().length()>0) {
+                    startScanImage();
+                }else
+                {
+                    Toast.makeText(this, "No image selected for scan text!!!", Toast.LENGTH_LONG).show();
+
+                }
+
+
 
                 break;
 
@@ -224,22 +232,24 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-    private void cameraIntent()
-    {
+
+    private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-             if (requestCode == REQUEST_CAMERA)
+            if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
             else if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
         }
     }
+
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -248,7 +258,7 @@ public class MainActivity extends AppCompatActivity
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
 
-        FileOutputStream fo=null;
+        FileOutputStream fo = null;
         try {
             destination.createNewFile();
             fo = new FileOutputStream(destination);
@@ -259,9 +269,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(fo!=null){
+        } finally {
+            if (fo != null) {
                 try {
                     fo.flush();
                     fo.close();
@@ -278,49 +287,40 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-    private void galleryIntent()
-    {
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
 
-        Bitmap bm=null;
-        File imageFile=null;
+        Bitmap bm = null;
+        File imageFile = null;
         Uri url;
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                url=(Uri)data.getData();
-                imageFile = new File(PathUtil.getPath(this,url));
+                url = (Uri) data.getData();
+                imageFile = new File(PathUtil.getPath(this, url));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         AppSettings.setInputPath(imageFile.getAbsolutePath().toString());
         image_selected.setImageBitmap(CreativeUtil.getBitMapFromFile(AppSettings.getInputPath()));
-
         image_selected.setImageBitmap(bm);
     }
 
-    private String getRealPathFromURI(Uri contentURI) {
-        String result;
-        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
+    public void chooseIntent() {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        // intent.setType( "message/rfc822");
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, textView_imageScanText.getText().toString());
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Scan Image Data");
+
+        startActivity(Intent.createChooser(intent, "Send mail..."));
     }
-
-
 }
